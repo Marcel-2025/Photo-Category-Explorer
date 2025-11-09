@@ -1,11 +1,22 @@
-
 import React from 'react';
 
 type IconProps = { className?: string };
 
+export const MenuIcon: React.FC<IconProps> = (props) => (
+    <svg {...props} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+);
+
+export const XIcon: React.FC<IconProps> = (props) => (
+    <svg {...props} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+    </svg>
+);
+
 export const WhatsAppIcon: React.FC<IconProps> = (props) => (
     <svg {...props} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-        <path d="M16.75 13.96c.25.41.41.86.41 1.36 0 1.25-1.02 2.27-2.27 2.27s-2.27-1.02-2.27-2.27c0-.5.16-1 .41-1.36-.61-.46-1.03-1.2-1.03-2.04 0-1.42 1.15-2.57 2.57-2.57s2.57 1.15 2.57 2.57c0 .84-.42 1.58-1.03 2.04zM21 12c0-4.97-4.03-9-9-9s-9 4.03-9 9c0 1.63.44 3.16 1.22 4.49l-1.22 3.51 3.59-1.25c1.3.77 2.8 1.25 4.41 1.25 4.97 0 9-4.03 9-9zM7.5 12c0-1.25 1.02-2.27 2.27-2.27s2.27 1.02 2.27 2.27c0 .5-.16 1-.41 1.36.61.46 1.03 1.2 1.03 2.04 0 1.42-1.15 2.57-2.57 2.57s-2.57-1.15-2.57-2.57c0-.84.42-1.58 1.03-2.04-.25-.41-.41-.86-.41-1.36z" />
+        <path d="M16.75 13.96c.25.41.41.86.41 1.36 0 1.25-1.02 2.27-2.27 2.27s-2.27-1.02-2.27-2.27c0-.5.16-1 .41-1.36-.61-.46-1.03-1.2-1.03-2.04 0-1.42 1.15-2.57 2.57-2.57s2.57 1.15 2.57 2.57c0 .84-.42 1.58-1.03 2.04zM21 12c0-4.97-4.03-9-9-9s-9 4.03-9 9c0 1.63.44 3.16 1.22 4.49l-1.22 3.51 3.59-1.25c1.3.77 2.8 1.25 4.41 1.25 4.97 0 9-4.03 9-9zM7.5 12c0-1.25 1.02-2.27 2.27-2.27s2.27 1.02 2.27 2.27c0 .5-.16 1-.41 1.36.61.46 1.03 1.2 1.03 2.04 0 1.42-1.15 2.57-2.57-2.57s-2.57-1.15-2.57-2.57c0-.84.42-1.58 1.03-2.04-.25-.41-.41-.86-.41-1.36z" />
     </svg>
 );
 

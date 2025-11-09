@@ -7,10 +7,14 @@ interface PhotoDetailModalProps {
   onClose: () => void;
 }
 
-// Fix: Moved the ConfidenceBar component outside of PhotoDetailModal.
-// Defining components inside other components is a React anti-pattern that can lead to performance issues
-// and unexpected behavior, which may include the TypeScript error regarding the 'key' prop.
-const ConfidenceBar = ({ value, label }: { value: number; label: string }) => (
+// Fix: Correctly type the ConfidenceBar component using an interface for props and React.FC.
+// This allows TypeScript to correctly handle standard React props like 'key' when the component is used in a list.
+interface ConfidenceBarProps {
+  value: number;
+  label: string;
+}
+
+const ConfidenceBar: React.FC<ConfidenceBarProps> = ({ value, label }) => (
   <div>
       <div className="flex justify-between mb-1">
           <span className="text-sm font-medium text-gray-300">{label}</span>

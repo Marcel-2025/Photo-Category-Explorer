@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback, useMemo } from 'react';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
@@ -13,6 +12,7 @@ export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [filters, setFilters] = useState<FilterState>(INITIAL_FILTER_STATE);
   const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
 
   const { photos, isLoading, totalCount, classifiedCount } = usePhotos(isAuthenticated);
 
@@ -56,7 +56,16 @@ export default function App() {
 
   return (
     <div className="flex h-screen bg-gray-900 text-gray-200 font-sans">
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/60 z-20 md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+          aria-hidden="true"
+        ></div>
+      )}
       <Sidebar 
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
         filters={filters} 
         onFilterChange={handleFilterChange} 
         resetFilters={resetFilters}
@@ -64,7 +73,11 @@ export default function App() {
         totalCount={totalCount}
       />
       <main className="flex-1 flex flex-col overflow-hidden">
-        <Header filters={filters} onFilterChange={handleFilterChange} />
+        <Header 
+          filters={filters} 
+          onFilterChange={handleFilterChange} 
+          onToggleSidebar={() => setIsSidebarOpen(true)}
+        />
         <div className="flex-1 overflow-y-auto p-4 md:p-6">
           <PhotoGrid 
             photos={filteredPhotos} 
