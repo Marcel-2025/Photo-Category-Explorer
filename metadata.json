@@ -1,0 +1,5 @@
+{
+  "name": "Photo Category Explorer",
+  "description": "An intelligent overlay for your photo library that uses AI to automatically categorize screenshots and images, providing powerful sorting and filtering capabilities without modifying your original photos.",
+  "requestFramePermissions": []
+}
