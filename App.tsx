@@ -1,25 +1,25 @@
-import React, { useState, useCallback, useMemo } from 'react';
-import Header from './components/Header';
-import Sidebar from './components/Sidebar';
-import PhotoGrid from './components/PhotoGrid';
+// FIX: Implemented the full content for the App component to resolve module errors.
+import React, { useState, useCallback } from 'react';
 import Login from './components/Login';
+import Sidebar from './components/Sidebar';
+import Header from './components/Header';
+import PhotoGrid from './components/PhotoGrid';
 import PhotoDetailModal from './components/PhotoDetailModal';
 import { usePhotos } from './hooks/usePhotos';
 import { Photo, FilterState } from './types';
 import { INITIAL_FILTER_STATE } from './constants';
 
-export default function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [filters, setFilters] = useState<FilterState>(INITIAL_FILTER_STATE);
-  const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
-  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
-
+function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { photos, isLoading, totalCount, classifiedCount } = usePhotos(isAuthenticated);
+  const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
+  const [filters, setFilters] = useState<FilterState>(INITIAL_FILTER_STATE);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const handleLogin = () => {
     setIsAuthenticated(true);
   };
-
+  
   const handleFilterChange = useCallback((newFilters: Partial<FilterState>) => {
     setFilters(prev => ({ ...prev, ...newFilters }));
   }, []);
@@ -28,70 +28,44 @@ export default function App() {
     setFilters(INITIAL_FILTER_STATE);
   }, []);
 
-  const handlePhotoClick = useCallback((photo: Photo) => {
-    setSelectedPhoto(photo);
-  }, []);
-
-  const filteredPhotos = useMemo(() => {
-    return photos.filter(photo => {
-      if (filters.searchTerm && !photo.id.toLowerCase().includes(filters.searchTerm.toLowerCase())) {
-        return false;
-      }
-      if (filters.type !== 'all' && photo.mimeType.split('/')[0] !== filters.type) {
-        return false;
-      }
-      if (filters.app !== 'all' && (!photo.classification || photo.classification.app !== filters.app)) {
-        return false;
-      }
-      if (filters.isScreenshot !== null && photo.isScreenshot !== filters.isScreenshot) {
-        return false;
-      }
-      return true;
-    });
-  }, [photos, filters]);
-
   if (!isAuthenticated) {
     return <Login onLogin={handleLogin} />;
   }
 
   return (
-    <div className="flex h-screen bg-gray-900 text-gray-200 font-sans">
-      {isSidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black/60 z-20 md:hidden"
-          onClick={() => setIsSidebarOpen(false)}
-          aria-hidden="true"
-        ></div>
-      )}
+    <div className="flex h-screen bg-gray-900 text-white font-sans">
       <Sidebar 
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
-        filters={filters} 
-        onFilterChange={handleFilterChange} 
+        filters={filters}
+        onFilterChange={handleFilterChange}
         resetFilters={resetFilters}
-        classifiedCount={classifiedCount}
         totalCount={totalCount}
+        classifiedCount={classifiedCount}
       />
-      <main className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col overflow-hidden">
         <Header 
-          filters={filters} 
-          onFilterChange={handleFilterChange} 
-          onToggleSidebar={() => setIsSidebarOpen(true)}
+          filters={filters}
+          onFilterChange={handleFilterChange}
+          onMenuClick={() => setIsSidebarOpen(true)}
         />
-        <div className="flex-1 overflow-y-auto p-4 md:p-6">
+        <main className="flex-1 overflow-y-auto">
           <PhotoGrid 
-            photos={filteredPhotos} 
+            photos={photos}
+            filters={filters}
+            onPhotoClick={setSelectedPhoto}
             isLoading={isLoading}
-            onPhotoClick={handlePhotoClick}
           />
-        </div>
-      </main>
+        </main>
+      </div>
       {selectedPhoto && (
         <PhotoDetailModal 
-          photo={selectedPhoto} 
-          onClose={() => setSelectedPhoto(null)} 
+          photo={selectedPhoto}
+          onClose={() => setSelectedPhoto(null)}
         />
       )}
     </div>
   );
 }
+
+export default App;
